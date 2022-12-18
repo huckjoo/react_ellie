@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import './App.css';
 
-function App() {
+function AppJSX() {
   const name = '디크론';
   const list = ['우유', '딸기', '바나나', '메론'];
   return (
@@ -23,4 +23,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppJSX;
