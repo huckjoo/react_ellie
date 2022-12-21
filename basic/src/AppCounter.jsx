@@ -5,8 +5,8 @@ import Counter from './components/Counter';
 export default function AppCounter() {
   const [totalCount, setTotalCount] = useState(0);
 
-  const getTotalCount = (number) => {
-    setTotalCount(number);
+  const handleClick = () => {
+    setTotalCount((prev) => prev + 1);
   };
 
   return (
@@ -15,8 +15,8 @@ export default function AppCounter() {
         Total Count: {totalCount} {totalCount > 10 ? '🔥' : '❄️'}
       </div>
       <div className='counters'>
-        <Counter getTotalCount={getTotalCount} totalCount={totalCount} />
-        <Counter getTotalCount={getTotalCount} totalCount={totalCount} />
+        <Counter onClick={handleClick} totalCount={totalCount} />
+        <Counter onClick={handleClick} totalCount={totalCount} />
       </div>
     </div>
   );
