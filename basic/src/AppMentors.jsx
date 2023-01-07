@@ -32,19 +32,14 @@ export default function AppMentor() {
         onClick={() => {
           const prev = prompt(`누구의 이름을 바꾸고 싶은가요?`);
           const current = prompt(`이름을 무엇으로 바꾸고 싶은가요?`);
-          const findIndex = person.mentors.findIndex(
-            (element) => element.name === prev
-          );
-          let copyedArray = [...person.mentors];
-          if (findIndex !== -1) {
-            copyedArray[findIndex] = {
-              ...copyedArray[findIndex],
-              name: current,
-            };
-          }
           setPerson((previous) => ({
             ...previous,
-            mentors: copyedArray,
+            mentors: previous.mentors.map((mentor) => {
+              if (mentor.name === prev) {
+                return { ...mentor, name: current };
+              }
+              return mentor;
+            }),
           }));
         }}
       >
