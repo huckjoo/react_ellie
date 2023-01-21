@@ -1,27 +1,35 @@
-import React, { useReducer } from 'react';
-import personReducer from './reducer/person-reducer';
+import React, { useState } from 'react';
 
-export default function AppMentor() {
-  // const [person, setPerson] = useState(initialState);
-  const [person, dispatch] = useReducer(personReducer, initialPerson);
-
+export default function AppMentorsImmer() {
+  const [person, setPerson] = useState(initialPerson);
   const handleUpdate = () => {
     const prev = prompt(`누구의 이름을 바꾸고 싶은가요?`);
     const current = prompt(`이름을 무엇으로 바꾸고 싶은가요?`);
-    dispatch({ type: 'updated', prev, current });
+    setPerson((person) => ({
+      ...person,
+      mentors: person.mentors.map((mentor) => {
+        if (mentor.name === prev) {
+          return { ...mentor, name: current };
+        }
+        return mentor;
+      }),
+    }));
   };
-
   const handleAdd = () => {
-    const name = prompt(`추가할 멘토의 이름을 알려주세요.`);
-    const title = prompt(`추가할 멘토의 직책을 알려주세요.`);
-    dispatch({ type: 'added', name, title });
+    const name = prompt(`멘토의 이름은?`);
+    const title = prompt(`멘토의 직함은?`);
+    setPerson((person) => ({
+      ...person,
+      mentors: [...person.mentors, { name, title }],
+    }));
   };
-
   const handleDelete = () => {
-    const name = prompt(`삭제할 멘토의 이름을 알려주세요.`);
-    dispatch({ type: 'deleted', name });
+    const name = prompt(`누구를 삭제하고 싶은가요?`);
+    setPerson((person) => ({
+      ...person,
+      mentors: person.mentors.filter((m) => m.name !== name),
+    }));
   };
-
   return (
     <div>
       <h1>
