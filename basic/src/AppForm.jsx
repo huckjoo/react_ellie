@@ -8,6 +8,11 @@ export default function AppForm() {
     console.log(form);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor='name'>이름:</label>
@@ -16,9 +21,7 @@ export default function AppForm() {
         id='name'
         name='name'
         value={form.name}
-        onChange={(e) => {
-          setForm({ ...form, name: e.target.value });
-        }}
+        onChange={handleChange}
       />
       <label htmlFor='email'>이메일:</label>
       <input
@@ -26,9 +29,7 @@ export default function AppForm() {
         id='email'
         name='email'
         value={form.email}
-        onChange={(e) => {
-          setForm({ ...form, email: e.target.value });
-        }}
+        onChange={handleChange}
       />
       <button>Submit</button>
     </form>
