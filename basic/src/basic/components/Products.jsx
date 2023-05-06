@@ -3,21 +3,23 @@ import React, { useEffect, useState } from 'react';
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
   const handleChange = () => setChecked((prev) => !prev);
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
+    setError(undefined); // 에러가 있을 수 있으니까 초기화
     fetch(`data/${checked ? 'sale_' : ''}products.json`)
     .then((response) => {
         return response.json()})
       .then((data) => {
-        setIsLoading(false);
+        setLoading(false);
         setProducts(data);
       }).catch(()=>{
-        setIsLoading(false);
-        setIsError(true)
+        setError("에러 발생!!")
+      }).finally(()=>{
+        setLoading(false);
       })
       ;
     // unmount 될 때 호출하는 함수
@@ -26,11 +28,15 @@ export default function Products() {
     };
   }, [checked]);
 
+  if(loading){
+    return  <h3>로딩중...🤫</h3>
+  }
+
+  if(error) return <h3>{error}</h3>
+
   return (
     <>
-    {isError && <h3>ERROR 발생!</h3>}
-    {!isError && isLoading && <h3>로딩중...🤫</h3>}
-    {!isError && !isLoading && <><input
+    <input
         id='checkbox'
         type='checkbox'
         value={checked}
@@ -46,7 +52,7 @@ export default function Products() {
             </article>
           </li>
         ))}
-      </ul> </>}
+      </ul> 
     </>
   );
 }
